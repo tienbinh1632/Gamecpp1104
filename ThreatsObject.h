@@ -3,6 +3,6 @@
 #include "BaseObject.h"
 
 
-fadsfadsfasf
+
 
 #endif // !THREATS_OBJECT_H_

@@ -141,15 +141,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AmoObject.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="CommonFuncion.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainObject.cpp" />
+    <ClCompile Include="ThreatsObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AmoObject.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="CommonFuncion.h" />
     <ClInclude Include="MainObject.h" />
+    <ClInclude Include="ThreatsObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

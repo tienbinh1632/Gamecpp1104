@@ -12,7 +12,8 @@ BaseOBject::BaseOBject()
 
 BaseOBject::~BaseOBject()
 {
-	;
+	if (p_object_ != NULL)
+		SDL_FreeSurface(p_object_);
 }
 
 bool  BaseOBject :: loadimg(const char* file_name) //kiểm tra và gán
