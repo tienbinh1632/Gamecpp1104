@@ -5,8 +5,8 @@ MainObject::MainObject()
 {
 	rect_.x = 0;
 	rect_.y = 0;
-	rect_.w = Main_Width;
-	rect_.h = Main_Height;
+	rect_.w = Main_Width;//set kích thước ảnh
+	rect_.h = Main_Height;//set kích thước ảnh
 	x_val_ = 0;
 	y_val_ = 0;
 
@@ -80,7 +80,7 @@ void MainObject::HandleInputAction(SDL_Event events)
 
 		//sau khi load hình ảnh kiểu đạn thì set vị trị xuất hiện
 		//this->rect.xy là vị trí hiện tại của mainobject + thêm để xuất hiện ở nòng của main
-		p_amo->setRect(this->rect_.x + 80, this->rect_.y + 22); 
+		p_amo->setRect(this->rect_.x + this->rect_.w-40, this->rect_.y + this->rect_.h*0.8);
 		
 		p_amo->set_is_move(true); //cho phép đạn di chuyển để để gọi hàm handlemove trong main.cpp
 

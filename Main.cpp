@@ -1,6 +1,7 @@
 ﻿
 #include "CommonFuncion.h"
 #include "MainObject.h"
+#include "ThreatsObject.h"
 #undef main
 
 bool Init()
@@ -21,7 +22,7 @@ bool Init()
 int main(int arc,char* argv[])
 {
 	bool is_quit_ = false;
-	if (Init() == false) //ktra có kick thước game hiển thị
+	if (!Init()) //ktra có kick thước game hiển thị
 		return 0; //k có thì out ctrinh
 	g_bkground = SDLCommonFuncion::LoadImage("bk1.png"); //có kt màn hình load ảnh nền
 	if (g_bkground == NULL)
@@ -30,18 +31,36 @@ int main(int arc,char* argv[])
 	}
 	
 	
-
+	//Nhân vật chính
 	MainObject human_object; //tạo nhân vật chính
-	human_object.setRect(100, 200); //kick thước xuất hiện
-	bool ret= human_object.loadimg("plane80x46.png"); // ret=true,p_object=plane80x46 
+	human_object.setRect(100, 200); //vị trí xuất hiện
+	bool ret= human_object.loadimg("plane_fly.png"); // ret=true,p_object=plane_fly 
 	if (!ret)
 	{
 		return false;
 	}
-
 	// human_object.Show(g_screen); //thay p_object ở trên vào hàm load trên nền màn hình nền
 	
 
+	//threatsobject
+	//khởi tạo một biến rand_y để vị trí máy bay xuât hiện ở độ cao rand_y trong hàm setRect()
+	int rand_y = rand() % 400;
+	if (rand_y > SCREEN_HEIGHT - 200)
+	{
+		rand_y = (SCREEN_HEIGHT - 200) * 0.3;
+	}
+
+	ThreatsObject* p_threats = new ThreatsObject();//khởi tạo một threat
+	ret=p_threats->loadimg("af1.png"); //load ảnh
+
+	if (!ret)
+	{
+		return 0;
+	}
+	p_threats->setRect(SCREEN_WIDTH, rand_y); //dùng rand_y
+	p_threats->setval_x(10); //set giá trị x_val_ để threats di chuyển 1 lần đc 5 pixel rồi vào vòng lặp while gọi hàm handlemove
+
+	//sau khi khởi tạo mainobject và threatsobject vào hàm while để xử lý các chuỗi chương trình
 	while (!is_quit_) //hàm chạy liên tục.Nếu kick vào biểu tượng X ở trên thanh công cụ thì is_quit=true =>out program
 	{
 		while (SDL_PollEvent(&g_even)) //sau khi có nv rồi xử lý các bước di chuyển đạn bắn của nv thì xử lý trong vòng lặp while();
@@ -55,6 +74,8 @@ int main(int arc,char* argv[])
 		}
 
 		SDLCommonFuncion::ApplySurface(g_bkground, g_screen, 0, 0); //tải ảnh nền vào 
+
+		//xử lý cho mainobject
 		human_object.Show(g_screen);//thay p_object ở trên vào hàm load trên nền màn hình nền
 		human_object.HandleMove();
 
@@ -64,9 +85,13 @@ int main(int arc,char* argv[])
 			AmoObject* p_amo = amo_list.at(i);//tạo con trỏ đạn thứ i
 			if (p_amo != NULL) //nếu có đạn (tức là con trỏ có vị trí để trỏ tới
 			{
-				p_amo->Show(g_screen); //show đạn lên màn hình
-				p_amo->HandleMove(SCREEN_WIDTH,SCREEN_HEIGHT);
-			}
+				if (p_amo->get_is_move()) //gọi hàm kiểm tra xem có được phép di chuyển k
+				{
+					p_amo->Show(g_screen); //show đạn lên màn hình
+					p_amo->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT);
+				}
+
+			} 
 			else //đạn đi quá giới hạn hoặc chưa thao tác bấm chuột
 			{
 				if (p_amo != NULL) //nếu đạn đi quá giới hạn
@@ -81,7 +106,9 @@ int main(int arc,char* argv[])
 			}
 		}
 
-
+		//xử lý cho threatsobject
+		p_threats->Show(g_screen); //load ảnh threats vào nền
+		p_threats->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT-200); //gọi hàm di chuyển cho threats
 
 		if (SDL_Flip(g_screen) == -1)
 			return 0;

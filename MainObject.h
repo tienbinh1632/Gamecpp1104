@@ -6,8 +6,8 @@
 #include <vector>
 #include "AmoObject.h"
 
-#define Main_Width 80
-#define Main_Height 46
+#define Main_Width 77
+#define Main_Height 52
 
 class MainObject: public BaseOBject
 {
