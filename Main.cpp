@@ -108,7 +108,7 @@ int main(int arc,char* argv[])
 
 		//xử lý cho threatsobject
 		p_threats->Show(g_screen); //load ảnh threats vào nền
-		p_threats->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT-200); //gọi hàm di chuyển cho threats
+		p_threats->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT-200); //gọi hàm di chuyển cho threatsf
 
 		if (SDL_Flip(g_screen) == -1)
 			return 0;
