@@ -30,4 +30,12 @@ void AmoObject::HandleMove(const int x_boder, const int y_boder)
 	}
 }
 
+void AmoObject::HandleMoveRightToLeft()
+{
+	rect_.x -= 20;
+	if (rect_.x < 0)
+	{
+		is_move_ = false;//lệnh di chuyển bị hủy bỏ
+	}
+}
 

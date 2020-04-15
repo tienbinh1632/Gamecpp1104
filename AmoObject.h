@@ -20,6 +20,8 @@ public:
 
 	void HandleInputAction(SDL_Event events, SDL_Rect rect_obj); //hàm sử lý sự kiện 
 	void HandleMove(const int x_boder, const int y_boder); //hàm di chuyển của đạn
+
+	void HandleMoveRightToLeft();
 	unsigned int get_amo_type() const { return amo_type_; }
 	void set_amo_type(const int& amo_type) { amo_type_ = amo_type; }
 

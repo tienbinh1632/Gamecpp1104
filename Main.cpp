@@ -50,15 +50,27 @@ int main(int arc,char* argv[])
 		rand_y = (SCREEN_HEIGHT - 200) * 0.3;
 	}
 
-	ThreatsObject* p_threats = new ThreatsObject();//khởi tạo một threat
-	ret=p_threats->loadimg("af1.png"); //load ảnh
-
-	if (!ret)
+	ThreatsObject* p_threats = new ThreatsObject[NUM_Threat];//khởi tạo một mảng gồm số threat = num_threat
+	for (int t = 0; t < NUM_Threat; t++)
 	{
-		return 0;
+		ThreatsObject* p_threat = p_threats + t; //tạo p_threat= p_threats +t
+		if (p_threat)
+		{
+			ret = p_threat->loadimg("af1.png"); //load ảnh
+
+			if (!ret)
+			{
+				return 0;
+			}
+			p_threat->setRect(SCREEN_WIDTH + t * 400, rand_y); //dùng rand_y
+			p_threat->setval_x(10); //set giá trị x_val_ để threats di chuyển 1 lần đc 5 pixel rồi vào vòng lặp while gọi hàm handlemove
+
+			AmoObject* p_amo = new AmoObject(); //khởi tạo đạn
+			p_threat->InitAmo(p_amo); //truyền đạn cho threat
+		}
 	}
-	p_threats->setRect(SCREEN_WIDTH, rand_y); //dùng rand_y
-	p_threats->setval_x(10); //set giá trị x_val_ để threats di chuyển 1 lần đc 5 pixel rồi vào vòng lặp while gọi hàm handlemove
+	
+
 
 	//sau khi khởi tạo mainobject và threatsobject vào hàm while để xử lý các chuỗi chương trình
 	while (!is_quit_) //hàm chạy liên tục.Nếu kick vào biểu tượng X ở trên thanh công cụ thì is_quit=true =>out program
@@ -90,8 +102,7 @@ int main(int arc,char* argv[])
 					p_amo->Show(g_screen); //show đạn lên màn hình
 					p_amo->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT);
 				}
-
-			} 
+			}
 			else //đạn đi quá giới hạn hoặc chưa thao tác bấm chuột
 			{
 				if (p_amo != NULL) //nếu đạn đi quá giới hạn
@@ -106,13 +117,23 @@ int main(int arc,char* argv[])
 			}
 		}
 
-		//xử lý cho threatsobject
-		p_threats->Show(g_screen); //load ảnh threats vào nền
-		p_threats->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT-200); //gọi hàm di chuyển cho threatsf
-
+		//xử lý cho threatobject
+		for (int tt = 0; tt < NUM_Threat; tt++)
+		{
+			ThreatsObject* p_threat = p_threats + tt;
+			if (p_threat)
+			{
+				p_threat->Show(g_screen); //load ảnh threat vào nền
+				p_threat->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT - 200); //gọi hàm di chuyển cho threat
+				p_threat->MakeAmo(g_screen, SCREEN_WIDTH, SCREEN_HEIGHT); //gọi hàm bắn đạn cho threat
+			}
+		}
+		
 		if (SDL_Flip(g_screen) == -1)
 			return 0;
 	}
+	delete[] p_threats;//delete con trỏ 
+	//còn một con trỏ p_amo đc tạo ra để truyền vào hàm  nạp đạn cho threat ta cần delete;xử lý trong ~ThreatsObject()
 
 	SDLCommonFuncion::ClearnUp(); 
 	SDL_Quit();
