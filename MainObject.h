@@ -4,7 +4,7 @@
 #include "CommonFuncion.h"
 #include "BaseObject.h"
 #include <vector>
-#include "AmoObject.h"
+#include "BulletObject.h"
 
 #define Main_Width 77
 #define Main_Height 52
@@ -16,17 +16,21 @@ public:
 	~MainObject();
 
 
-	void HandleInputAction(SDL_Event events); //hàm sử lý sự kiện bàn phím
+	void HandleInputAction(SDL_Event events,Mix_Chunk* Bullet_sound[2]); //hàm sử lý sự kiện bàn phím
 	void HandleMove(); //sau khi load giá trị khi sử lý sự kiện thì thực hiện thay đổi vị trí của mainobject
 
-	void SetAmoList(std::vector<AmoObject*> list_amo) { p_list_amo_ = list_amo; }
-	std::vector<AmoObject*> GetAmoList() const { return p_list_amo_; }
+	void MakeBullet(SDL_Surface* des);//hàm xử lý đạn bắn
+
+	void SetBulletList(std::vector<BulletObject*> list_bullet) { p_list_bullet_ = list_bullet; }
+	std::vector<BulletObject*> GetBulletList() const { return p_list_bullet_; }
+	void RemoveBullet(const int& idx); //funcion delele bullet of main
+
 
 private:
 	int x_val_;
 	int y_val_;
 
-	std::vector<AmoObject* > p_list_amo_; //list trường đạn bắn
+	std::vector<BulletObject* > p_list_bullet_; //list trường đạn bắn
 };
 
 

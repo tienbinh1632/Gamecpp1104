@@ -1,12 +1,13 @@
 #ifndef THREATS_OBJECT_H_
 #define THREATS_OBJECT_H_
 #include "BaseObject.h"
-#include "AmoObject.h"
+#include "BulletObject.h"
 #include <vector>
 
 
 #define threats_width 80
 #define threats_height 33
+
 
 class ThreatsObject : public BaseOBject
 {
@@ -23,17 +24,20 @@ public:
 	int getval_x() const { return val_x; }
 	int getval_y() const { return val_y; }
 
-	void set_amo_list(std::vector<AmoObject*> amo_list) { p_amo_list_ = amo_list; }
-	std::vector<AmoObject*> Get_amo_list() const {return p_amo_list_; }
+	void set_bullet_list(std::vector<BulletObject*> bullet_list) { p_bullet_list_ = bullet_list; }
+	std::vector<BulletObject*> Get_bullet_list() const {return p_bullet_list_; }
 
-	void InitAmo(AmoObject* p_amo);
-	void MakeAmo(SDL_Surface* des, const int& x_limit, const int& y_litmit);
+	void InitBullet(BulletObject* p_bullet);
+	void MakeBullet(SDL_Surface* des, const int& x_limit, const int& y_litmit, const int& speedbullet);
+
+	void ResetThreat(const int& x_boder);
+	void ResetBullet(BulletObject* p_bullet);
 
 private:
 	int val_x;
 	int val_y;
 
-	std::vector<AmoObject*> p_amo_list_;
+	std::vector<BulletObject*> p_bullet_list_;
 };
 
 

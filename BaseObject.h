@@ -14,7 +14,7 @@ public:
 	SDL_Rect GetRect() const {return rect_;}
 	SDL_Surface* GetObject() { return p_object_; }
 protected:
-	SDL_Surface* p_object_;
+	SDL_Surface* p_object_; //nguồn có thể là main,threat...
 	SDL_Rect rect_; //kick thước x,y,w,h
 };
  
